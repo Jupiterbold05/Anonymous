@@ -1,7 +1,7 @@
 services:
   - type: web
-    name: anonymous-message-app
+    name: say-ya-mind
     env: node
+    plan: free
     buildCommand: "npm install"
     startCommand: "npm start"
-    plan: free
