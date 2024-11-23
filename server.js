@@ -2,15 +2,14 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
-const fs = require("fs");
 const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// In-memory database
-const users = {};
-const messages = {};
+// In-memory database (You can replace with a real DB later)
+const users = {}; // { username: { password, messages } }
+const messages = {}; // { username: [message] }
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,7 +25,7 @@ app.use(
 // Set EJS as template engine
 app.set("view engine", "ejs");
 
-// Middleware to check if a user is logged in
+// Middleware to check if user is logged in
 const checkAuth = (req, res, next) => {
   if (req.session.user) return next();
   res.redirect("/login");
@@ -34,6 +33,7 @@ const checkAuth = (req, res, next) => {
 
 // Routes
 app.get("/", (req, res) => res.render("index"));
+
 app.get("/register", (req, res) => res.render("register"));
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -51,12 +51,12 @@ app.post("/login", async (req, res) => {
     return res.render("login", { error: "Invalid username or password!" });
   }
   req.session.user = username;
-  res.redirect("/dashboard");
+  res.redirect(`/dashboard/${username}`);
 });
 
-app.get("/dashboard", checkAuth, (req, res) => {
-  const userMessages = users[req.session.user].messages;
-  res.render("dashboard", { username: req.session.user, messages: userMessages });
+app.get("/dashboard/:username", checkAuth, (req, res) => {
+  const userMessages = users[req.params.username].messages;
+  res.render("dashboard", { username: req.params.username, messages: userMessages });
 });
 
 app.get("/logout", (req, res) => {
@@ -64,11 +64,21 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.post("/send", (req, res) => {
-  const { to, message } = req.body;
-  if (!users[to]) return res.redirect("/dashboard?error=User does not exist");
-  users[to].messages.push({ from: "Anonymous", text: message });
-  res.redirect("/dashboard?success=Message sent!");
+app.get("/:username", (req, res) => {
+  const username = req.params.username;
+  if (!users[username]) return res.status(404).send("User not found.");
+  res.render("sendMessage", { username });
+});
+
+app.post("/:username", (req, res) => {
+  const { username } = req.params;
+  const { message } = req.body;
+  if (users[username]) {
+    users[username].messages.push({ from: "Anonymous", text: message });
+    res.redirect(`/dashboard/${username}`);
+  } else {
+    res.status(404).send("User not found.");
+  }
 });
 
 // Start server
