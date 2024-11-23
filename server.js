@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 
 // Register Page
 app.get("/register", (req, res) => {
-  res.render("register", { error: null });
+  res.render("register", { error: null, successMessage: null });
 });
 
 // Handle Registration
@@ -39,13 +39,20 @@ app.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
   if (users[username]) {
-    return res.render("register", { error: "Username already exists!" });
+    return res.render("register", {
+      error: "Username already exists!",
+      successMessage: null,
+    });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   users[username] = { password: hashedPassword };
   messages[username] = [];
-  res.redirect("/login");
+
+  res.render("register", {
+    error: null,
+    successMessage: "Registration successful! Please log in.",
+  });
 });
 
 // Login Page
