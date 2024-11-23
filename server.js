@@ -7,7 +7,7 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// In-memory database (You can replace with a real DB later)
+// In-memory database (You can replace this with a real DB later)
 const users = {}; // { username: { password, messages } }
 
 // Middleware
@@ -37,10 +37,7 @@ app.get("/register", (req, res) => res.render("register"));
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
-  // Check if the username is already taken
-  if (users[username]) {
-    return res.render("register", { error: "User already exists!" });
-  }
+  if (users[username]) return res.render("register", { error: "User already exists!" });
 
   // Hash the password and save the user data
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,7 +52,7 @@ app.get("/login", (req, res) => res.render("login"));
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = users[username];
-  
+
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.render("login", { error: "Invalid username or password!" });
   }
