@@ -1,54 +1,59 @@
 const express = require("express");
 const session = require("express-session");
-const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const path = require("path");
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-// In-memory database (You can replace this with a real DB later)
-const users = {}; // { username: { password, messages } }
+// Simulated database
+const users = {};
+const messages = {};
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "secret_key",
+    secret: "secret-key",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
 
-// Set EJS as template engine
-app.set("view engine", "ejs");
-
-// Middleware to check if user is logged in
-const checkAuth = (req, res, next) => {
-  if (req.session.user) return next();
-  res.redirect("/login");
-};
-
 // Routes
-app.get("/", (req, res) => res.render("index"));
 
-app.get("/register", (req, res) => res.render("register"));
+// Home Page
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
+// Register Page
+app.get("/register", (req, res) => {
+  res.render("register", { error: null });
+});
+
+// Handle Registration
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
-  if (users[username]) return res.render("register", { error: "User already exists!" });
+  if (users[username]) {
+    return res.render("register", { error: "Username already exists!" });
+  }
 
-  // Hash the password and save the user data
   const hashedPassword = await bcrypt.hash(password, 10);
-  users[username] = { password: hashedPassword, messages: [] };
-
-  // Create a unique link for the user
-  const uniqueLink = `https://say-ya-mind.onrender.com/${username}`;
-  res.render("register", { successMessage: `Account created! Share your link: ${uniqueLink}` });
+  users[username] = { password: hashedPassword };
+  messages[username] = [];
+  res.redirect("/login");
 });
 
-app.get("/login", (req, res) => res.render("login"));
+// Login Page
+app.get("/login", (req, res) => {
+  res.render("login", { error: null });
+});
+
+// Handle Login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = users[username];
@@ -61,38 +66,48 @@ app.post("/login", async (req, res) => {
   res.redirect(`/dashboard/${username}`);
 });
 
-app.get("/dashboard/:username", checkAuth, (req, res) => {
-  const username = req.params.username;
-  const userMessages = users[username].messages;
-  res.render("dashboard", { username, messages: userMessages });
+// Dashboard Page
+app.get("/dashboard/:username", (req, res) => {
+  const { username } = req.params;
+
+  if (req.session.user !== username) {
+    return res.redirect("/login");
+  }
+
+  res.render("dashboard", { username, messages: messages[username] });
 });
 
-// Endpoint for sending anonymous messages
-app.get("/:username", (req, res) => {
-  const username = req.params.username;
-  if (!users[username]) return res.status(404).send("User not found.");
+// Handle Anonymous Message
+app.post("/send/:username", (req, res) => {
+  const { username } = req.params;
 
-  // Display form for sending anonymous messages
+  if (!users[username]) {
+    return res.status(404).send("User not found");
+  }
+
+  const { message } = req.body;
+  messages[username].push(message);
+  res.redirect(`/send/${username}`);
+});
+
+// Anonymous Message Page
+app.get("/send/:username", (req, res) => {
+  const { username } = req.params;
+
+  if (!users[username]) {
+    return res.status(404).send("User not found");
+  }
+
   res.render("sendMessage", { username });
 });
 
-app.post("/:username", (req, res) => {
-  const { username } = req.params;
-  const { message } = req.body;
-
-  if (users[username]) {
-    // Store the message in the recipient's account
-    users[username].messages.push({ from: "Anonymous", text: message });
-    res.redirect(`/dashboard/${username}`); // Redirect to dashboard to view messages
-  } else {
-    res.status(404).send("User not found.");
-  }
-});
-
+// Logout
 app.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
 });
 
-// Start server
-app.listen(port, () => console.log(`Server running on port ${port}`));
+// Start Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
