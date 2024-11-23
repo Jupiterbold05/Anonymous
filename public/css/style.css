@@ -1,31 +1,82 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+/* Basic resets and general styles */
+* {
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Added your background image URL */
+  background-size: cover;
+  background-position: center;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
 }
 
 h1, h2 {
-  color: #333;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+h2 {
+  margin-top: 20px;
+}
+
+/* Form styling */
 form {
-  margin: 20px 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  margin-top: 20px;
 }
 
 input, textarea, button {
-  display: block;
+  width: 100%;
+  padding: 12px;
   margin: 10px 0;
-  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+input:focus, textarea:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+textarea {
+  height: 100px;
+  resize: none;
 }
 
 button {
   background-color: #007BFF;
-  color: #fff;
+  color: white;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #0056b3;
+}
+
+/* Links styling */
+a {
+  color: #007BFF;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+a:hover {
+  text-decoration: underline;
   }
+  
