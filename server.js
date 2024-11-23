@@ -51,7 +51,7 @@ app.post("/register", async (req, res) => {
 
   res.render("register", {
     error: null,
-    successMessage: "Registration successful! Please log in.",
+    successMessage: `Registration successful! Share your link: https://your-app-domain.com/send/${username}`,
   });
 });
 
@@ -84,6 +84,17 @@ app.get("/dashboard/:username", (req, res) => {
   res.render("dashboard", { username, messages: messages[username] });
 });
 
+// Anonymous Message Page
+app.get("/send/:username", (req, res) => {
+  const { username } = req.params;
+
+  if (!users[username]) {
+    return res.status(404).send("User not found");
+  }
+
+  res.render("sendMessage", { username });
+});
+
 // Handle Anonymous Message
 app.post("/send/:username", (req, res) => {
   const { username } = req.params;
@@ -94,18 +105,8 @@ app.post("/send/:username", (req, res) => {
 
   const { message } = req.body;
   messages[username].push(message);
-  res.redirect(`/send/${username}`);
-});
 
-// Anonymous Message Page
-app.get("/send/:username", (req, res) => {
-  const { username } = req.params;
-
-  if (!users[username]) {
-    return res.status(404).send("User not found");
-  }
-
-  res.render("sendMessage", { username });
+  res.send("Thank you! Your message has been sent.");
 });
 
 // Logout
