@@ -1,27 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="/css/style.css">
-  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Your Dashboard</title>
 </head>
 <body>
-  <h1>Welcome, <%= username %>!</h1>
-  <a href="/logout">Logout</a>
+  <h1>Welcome, <%= username %></h1>
   <h2>Your Messages</h2>
-  <% if (messages.length === 0) { %>
-    <p>No messages yet!</p>
-  <% } else { %>
-    <ul>
-      <% messages.forEach(message => { %>
-        <li><strong><%= message.from %>:</strong> <%= message.text %></li>
-      <% }); %>
-    </ul>
-  <% } %>
-  <h2>Send an Anonymous Message</h2>
-  <form action="/send" method="POST">
-    <input type="text" name="to" placeholder="Recipient Username" required>
-    <textarea name="message" placeholder="Your message" required></textarea>
-    <button type="submit">Send</button>
-  </form>
+  <ul>
+    <% messages.forEach(message => { %>
+      <li><strong><%= message.from %>:</strong> <%= message.text %></li>
+    <% }) %>
+  </ul>
+  <p><a href="/logout">Logout</a></p>
 </body>
 </html>
