@@ -2,16 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
+  <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
   <h1>Register</h1>
   <form action="/register" method="POST">
-    <input type="text" name="username" placeholder="Enter Username" required>
-    <input type="password" name="password" placeholder="Enter Password" required>
+    <input type="text" name="username" placeholder="Choose a username" required>
+    <input type="password" name="password" placeholder="Choose a password" required>
     <button type="submit">Register</button>
   </form>
-  <% if (error) { %> <p><%= error %></p> <% } %>
-  <% if (successMessage) { %> <p><%= successMessage %></p> <% } %>
+  <% if (error) { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+  <% if (typeof successMessage !== "undefined" && successMessage) { %>
+    <p style="color: green;"><%= successMessage %></p>
+  <% } %>
 </body>
 </html>
