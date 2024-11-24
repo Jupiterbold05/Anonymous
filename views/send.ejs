@@ -4,27 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Send Message</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Send a Message to <%= username %></h1>
+      <img src="/path/to/logo.png" alt="Logo" class="logo">
+      <h1>Send Your Message</h1>
     </header>
 
     <form action="/send/<%= username %>" method="POST">
-      <textarea name="message" placeholder="Write your anonymous message..." required></textarea>
-      <button type="submit">Send Message</button>
+      <label for="message">Your Message:</label>
+      <textarea name="message" id="message" rows="4" placeholder="Write your anonymous message here..." required></textarea>
+
+      <button type="submit" class="btn">Send Message</button>
     </form>
 
-    <div class="account-creation">
-      <p>Don't have an account? <a href="/register">Create one now</a></p>
+    <div class="social-media">
+      <p>Share your message:</p>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn fb-btn">Facebook</a>
+      <a href="https://api.whatsapp.com/send?text=Check%20this%20out:%20https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn wa-btn">WhatsApp</a>
+      <a href="https://twitter.com/intent/tweet?url=https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn tw-btn">Twitter</a>
+      <a href="https://www.instagram.com/share?url=https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn ig-btn">Instagram</a>
     </div>
-  </div>
 
-  <footer>
-    <p>&copy; 2024 Say Ya Mind</p>
-  </footer>
+    <footer>
+      <p>Don't have an account? <a href="/register" class="btn">Create an Account</a></p>
+    </footer>
+  </div>
 </body>
 </html>
