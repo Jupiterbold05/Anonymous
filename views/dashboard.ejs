@@ -1,27 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212; /* Dark background */
+      color: #ffffff; /* White text */
+      text-align: center;
+      padding: 20px;
+    }
+
+    .header {
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      color: #ff5722; /* Vibrant orange for header */
+    }
+
+    .message-card {
+      background-color: #1e1e1e; /* Slightly lighter dark card background */
+      border: 1px solid #333333; /* Border to define card edges */
+      border-radius: 8px;
+      margin: 10px auto;
+      padding: 15px;
+      max-width: 500px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .message-card .time {
+      font-size: 12px;
+      color: #aaaaaa; /* Light gray timestamp */
+      text-align: right;
+    }
+
+    .message-card .content {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff5722; /* Vibrant orange button */
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #e64a19;
+    }
+  </style>
 </head>
 <body>
+  <div class="header">
     <h1>Welcome, <%= username %>!</h1>
-    <h2>Your Messages:</h2>
+    <p>Here are your anonymous messages:</p>
+  </div>
 
-    <% if (messages && messages.length > 0) { %>
-        <ul>
-            <% messages.forEach(function(msg) { %>
-                <li>
-                    <p><strong>Message:</strong> <%= msg.message %></p>
-                    <p><small><%= msg.timeSent %></small></p>
-                </li>
-            <% }); %>
-        </ul>
-    <% } else { %>
-        <p>You have no messages yet.</p>
-    <% } %>
+  <% if (messages.length > 0) { %>
+    <% messages.forEach((message) => { %>
+      <div class="message-card">
+        <div class="content">
+          <%= message.message %>
+        </div>
+        <div class="time">
+          <%= message.timeSent %>
+        </div>
+      </div>
+    <% }); %>
+  <% } else { %>
+    <p>No messages yet. Share your link to receive messages!</p>
+  <% } %>
 
-    <a href="/logout">Logout</a>
+  <a class="btn" href="/logout">Logout</a>
 </body>
 </html>
