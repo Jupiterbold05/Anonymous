@@ -1,90 +1,129 @@
 const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
 const app = express();
+const path = require('path');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 
-// Store messages in-memory for simplicity
-let messages = [];
+// Set up middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'));
+// Set up session middleware
 app.use(session({
-  secret: 'your_secret_key',
+  secret: 'secretKey', // You can change this to a more secure key
   resave: false,
   saveUninitialized: true
 }));
 
-// Home route
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// In-memory storage for users (for simplicity)
+let users = [];
+let currentUser = null;
+
+// Set EJS as the template engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Routes
 app.get('/', (req, res) => {
   res.render('index');
 });
 
-// Registration route
 app.get('/register', (req, res) => {
   res.render('register');
 });
 
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
-  // Store the user info in memory or a database in production
-  req.session.user = { username, password };
-  res.redirect(`/dashboard/${username}`);
+  if (!username || !password) {
+    return res.render('register', { error: 'Please fill out all fields.' });
+  }
+  const userExists = users.some(user => user.username === username);
+  if (userExists) {
+    return res.render('register', { error: 'Username already exists.' });
+  }
+  // Add the user to the "database"
+  users.push({ username, password });
+  res.render('register', { successMessage: 'Registration successful! You can now login.' });
 });
 
-// Login route
 app.get('/login', (req, res) => {
   res.render('login');
 });
 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-  // For simplicity, checking from session storage (You'd check a database here)
-  if (req.session.user && req.session.user.username === username && req.session.user.password === password) {
-    return res.redirect(`/dashboard/${username}`);
+  const user = users.find(user => user.username === username && user.password === password);
+  if (user) {
+    req.session.user = user;
+    currentUser = user;
+    res.redirect(`/dashboard/${username}`);
+  } else {
+    res.render('login', { error: 'Invalid credentials. Please try again.' });
   }
-  res.render('login', { error: 'Invalid credentials' });
+});
+
+// Send message route
+app.get('/send/:username', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  const { username } = req.params;
+  if (req.session.user.username !== username) {
+    return res.redirect('/login');
+  }
+  res.render('send', { username });
 });
 
 // Dashboard route
 app.get('/dashboard/:username', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
   const { username } = req.params;
-  res.render('dashboard', { username });
-});
-
-// Send message route
-app.get('/send', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/login'); // Ensure the user is logged in
+  if (req.session.user.username !== username) {
+    return res.redirect('/login');
   }
-
-  const username = req.session.user.username;
-  res.render('send', { username, messages });
+  res.render('dashboard', { username, messages: [] }); // For now, no messages are stored
 });
 
+// Handle messages
 app.post('/send-message', (req, res) => {
+  const { message, username } = req.body;
   if (!req.session.user) {
-    return res.redirect('/login'); // Ensure the user is logged in
+    return res.redirect('/login');
   }
+  if (req.session.user.username !== username) {
+    return res.redirect('/login');
+  }
+  // Simulate storing the message (in memory for now)
+  // You can extend this logic to store messages in a database
+  const userMessages = req.session.user.messages || [];
+  userMessages.push({ message, time: new Date().toLocaleTimeString() });
+  req.session.user.messages = userMessages;
 
-  const { username } = req.session.user;
-  const { message } = req.body;
-
-  const messageObj = {
-    username: username,
-    text: message,
-    time: new Date().toLocaleString() // Add timestamp for when the message was sent
-  };
-
-  messages.push(messageObj);
-  res.redirect('/send');
+  res.redirect(`/dashboard/${username}`);
 });
 
-// Static files (e.g. styles)
-app.use(express.static('public'));
+// Logout route
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.redirect('/dashboard');
+    }
+    res.redirect('/');
+  });
+});
 
-// Start server
+// 404 handler
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
+
+// Start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
