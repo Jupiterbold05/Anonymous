@@ -1,30 +1,30 @@
-<!-- send.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Send Message</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="header">
-    <img src="/images/logo.png" alt="Logo" class="logo"> <!-- Display Logo -->
-    <h1>Send a Message</h1>
+  <div class="container">
+    <header>
+      <h1>Send a Message to <%= username %></h1>
+    </header>
+
+    <form action="/send/<%= username %>" method="POST">
+      <textarea name="message" placeholder="Write your anonymous message..." required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="account-creation">
+      <p>Don't have an account? <a href="/register">Create one now</a></p>
+    </div>
   </div>
 
-  <form action="/send/<%= username %>" method="POST">
-    <label for="message">Your Message:</label>
-    <textarea name="message" id="message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-
-  <div class="account-creation">
-    <p>If you don't have an account, <a href="/register">create one now!</a></p>
-  </div>
-
-  <div class="logout">
-    <a href="/logout">Logout</a>
-  </div>
+  <footer>
+    <p>&copy; 2024 Say Ya Mind</p>
+  </footer>
 </body>
 </html>
