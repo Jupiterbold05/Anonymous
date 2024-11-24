@@ -2,11 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to Say Ya Mind</title>
-  <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* Basic reset and general styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      position: relative;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5); /* Dark overlay for text contrast */
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #FFD700; /* Gold color */
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      background-color: #FFD700;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #ffcc00; /* Slightly darker gold on hover */
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 1em;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    footer a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #ffcc00; /* Hover effect for links */
+    }
+  </style>
 </head>
 <body>
+  <div class="overlay"></div>
   <h1>Welcome to Say Ya Mind</h1>
-  <p><a href="/register">Register</a> | <a href="/login">Login</a></p>
+  <p>The best place to share your thoughts and connect with others</p>
+  <a href="/register">
+    <button class="button">Register</button>
+  </a>
+  <a href="/login">
+    <button class="button">Login</button>
+  </a>
+
+  <footer>
+    <p>© 2024 Say Ya Mind. All rights reserved.</p>
+  </footer>
 </body>
 </html>
