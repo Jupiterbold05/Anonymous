@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Message</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .buttons a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF; /* Default button color */
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons a:hover {
+            background-color: #0056b3; /* Hover button color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Share Your Message</h1>
+        <img src="<%= dataUrl %>" alt="Message Image">
+        <div class="buttons">
+            <a href="<%= shareUrl %>" target="_blank">Share on <%= platform %></a>
+        </div>
+    </div>
+</body>
+</html>
