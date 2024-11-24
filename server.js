@@ -33,8 +33,9 @@ const checkAuth = (req, res, next) => {
 };
 
 // Home Route
-app.get('/home', (req, res) => {
-  res.render('home');
+app.get('/home', checkAuth, (req, res) => {
+  const username = req.session.username;
+  res.render('home', { username });
 });
 
 // Index Route
@@ -150,4 +151,4 @@ app.get('/logout', (req, res) => {
 app.listen(3000, () => {
   console.log('Server started on http://localhost:3000');
 });
-  
+      
