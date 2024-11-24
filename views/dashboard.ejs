@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard - Say Ya Mind</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-  <h1>Welcome, <%= username %></h1>
-  <div>
-    <a href="/send">Send Message</a>
-  </div>
-  <footer>
-    <p><a href="/">Go to Home</a></p>
-  </footer>
-</body>
-</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://i.imgur.com/r7I7MUC.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #FFD700;
+        }
+        .chat-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            width: 70%;
+            margin: auto;
+        }
+        .messages {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .message.user {
+            background-color: #d1e7dd;
+        }
+        .message
