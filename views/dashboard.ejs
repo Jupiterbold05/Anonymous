@@ -1,43 +1,46 @@
-<!-- dashboard.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="header">
-    <img src="/images/logo.png" alt="Logo" class="logo"> <!-- Display Logo -->
-    <h1>Welcome, <%= username %></h1>
-  </div>
+  <div class="container">
+    <header>
+      <h1>Welcome <%= username %>!</h1>
+    </header>
 
-  <div class="messages">
-    <% messages.forEach(function(msg) { %>
-      <div class="message">
-        <p><%= msg.message %></p>
-        <small><%= msg.timeSent %></small>
-        <div class="share-buttons">
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-            <img src="/images/facebook-logo.png" alt="Facebook" class="social-logo">
-          </a>
-          <a href="https://api.whatsapp.com/send?text=<%= msg.message %> https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-            <img src="/images/whatsapp-logo.png" alt="WhatsApp" class="social-logo">
-          </a>
-          <a href="https://twitter.com/intent/tweet?text=<%= msg.message %> https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-            <img src="/images/twitter-logo.png" alt="Twitter" class="social-logo">
-          </a>
-          <a href="https://www.instagram.com/?url=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-            <img src="/images/instagram-logo.png" alt="Instagram" class="social-logo">
-          </a>
+    <div class="messages">
+      <% messages.forEach((message) => { %>
+        <div class="message">
+          <p><%= message.message %></p>
+          <p class="timestamp"><%= message.timeSent %></p>
+
+          <!-- Social Media Sharing -->
+          <div class="social-sharing">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com" target="_blank">
+              <img src="/images/facebook-logo.png" alt="Facebook" class="social-icon">
+            </a>
+            <a href="https://api.whatsapp.com/send?text=<%= message.message %>" target="_blank">
+              <img src="/images/whatsapp-logo.png" alt="WhatsApp" class="social-icon">
+            </a>
+            <a href="https://twitter.com/intent/tweet?text=<%= message.message %>" target="_blank">
+              <img src="/images/twitter-logo.png" alt="Twitter" class="social-icon">
+            </a>
+            <a href="https://www.instagram.com/" target="_blank">
+              <img src="/images/instagram-logo.png" alt="Instagram" class="social-icon">
+            </a>
+          </div>
         </div>
-      </div>
-    <% }) %>
+      <% }) %>
+    </div>
   </div>
 
-  <div class="logout">
-    <a href="/logout">Logout</a>
-  </div>
+  <footer>
+    <p>&copy; 2024 Say Ya Mind</p>
+  </footer>
 </body>
 </html>
