@@ -1,116 +1,91 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const User = require('./models/User'); // Assuming you have a User model
+
 const app = express();
 
-const users = {}; // Store users in-memory (consider using a database)
-const messages = {}; // Store messages for each user
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.set('view engine', 'ejs');
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Home Route
-app.get("/", (req, res) => {
-  res.render("index");
+// Session setup
+app.use(session({
+  secret: 'your_secret_key', // Secret key for session encryption
+  resave: false,
+  saveUninitialized: true,
+}));
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/sayyamind', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-// Register Route
-app.get("/register", (req, res) => {
-  res.render("register", {
-    error: null,
-    successMessage: null,
-  });
+// Routes
+app.get('/', (req, res) => {
+  res.render('index.ejs');
 });
 
-// Handle Registration
-app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+app.get('/register', (req, res) => {
+  res.render('register.ejs');
+});
 
-  if (users[username]) {
-    return res.render("register", {
-      error: "Username already exists!",
-      successMessage: null,
-    });
+app.post('/register', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check if the username already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.render('register.ejs', { error: 'Username already exists' });
+    }
+
+    // Create a new user
+    const user = new User({ username, password });
+    await user.save();
+
+    // Redirect to login page after successful registration
+    res.redirect('/login');
+  } catch (error) {
+    console.error(error);
+    res.render('register.ejs', { error: 'An error occurred. Please try again.' });
+  }
+});
+
+app.get('/login', (req, res) => {
+  res.render('login.ejs');
+});
+
+app.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username, password });
+
+    if (!user) {
+      return res.render('login.ejs', { error: 'Invalid username or password' });
+    }
+
+    // Store user information in the session
+    req.session.user = user;
+
+    // Redirect to the dashboard after successful login
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error(error);
+    res.render('login.ejs', { error: 'An error occurred. Please try again.' });
+  }
+});
+
+app.get('/dashboard', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  users[username] = { password: hashedPassword };
-  messages[username] = [];
-
-  res.render("register", {
-    error: null,
-    successMessage: `Registration successful! Share your link: https://say-ya-mind.onrender.com/send/${username}`,
-  });
+  res.render('dashboard.ejs', { user: req.session.user });
 });
 
-// Login Route
-app.get("/login", (req, res) => {
-  res.render("login", { error: null });
-});
-
-// Handle Login
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!users[username]) {
-    return res.render("login", { error: "User not found!" });
-  }
-
-  const user = users[username];
-  const validPassword = await bcrypt.compare(password, user.password);
-
-  if (!validPassword) {
-    return res.render("login", { error: "Invalid password!" });
-  }
-
-  res.redirect(`/dashboard/${username}`);
-});
-
-// Dashboard Route
-app.get("/dashboard/:username", (req, res) => {
-  const { username } = req.params;
-  const userMessages = messages[username];
-  res.render("dashboard", {
-    username,
-    messages: userMessages || [],
-  });
-});
-
-// Send Anonymous Message Route
-app.get("/send/:username", (req, res) => {
-  const { username } = req.params;
-
-  if (!users[username]) {
-    return res.status(404).send("User not found");
-  }
-
-  res.render("send", { username });
-});
-
-// Handle Sending Anonymous Messages
-app.post("/send/:username", (req, res) => {
-  const { username } = req.params;
-
-  if (!users[username]) {
-    return res.status(404).send("User not found");
-  }
-
-  const { message } = req.body;
-  const timeSent = new Date().toLocaleString(); // Get the current time
-
-  // Store message with timestamp
-  messages[username].push({ message, timeSent });
-
-  res.send("Thank you! Your message has been sent.");
-});
-
-// Logout Route
-app.get("/logout", (req, res) => {
-  res.redirect("/");
-});
-
-// Start Server
 app.listen(3000, () => {
-  console.log("Server started on http://localhost:3000");
+  console.log('Server running on http://localhost:3000');
 });
