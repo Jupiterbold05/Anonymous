@@ -127,6 +127,11 @@
             text-decoration: underline;
         }
     </style>
+    <script>
+        function showSuccessMessage() {
+            alert("Your message has been sent successfully!");
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -136,7 +141,7 @@
         </div>
         <div class="message-box">
             <h2>Send a Message to <%= username %></h2>
-            <form action="/send/<%= username %>" method="POST">
+            <form action="/send/<%= username %>" method="POST" onsubmit="showSuccessMessage()">
                 <textarea name="message" rows="4" placeholder="Write your message..." required></textarea>
                 <button type="submit" class="btn">Send Message</button>
             </form>
