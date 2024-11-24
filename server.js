@@ -1,1 +1,90 @@
-const express = require('express'); const bcrypt = require('bcrypt'); const app = express(); const users = {}; // Store users in-memory (consider using a database) const messages = {}; // Store messages for each user app.use(express.urlencoded({ extended: true })); app.use(express.json()); app.set('view engine', 'ejs'); app.use(express.static('public')); // Home Route app.get("/", (req, res) => { res.render("index"); }); // Register Route app.get("/register", (req, res) => { res.render("register", { error: null, successMessage: null, }); }); // Handle Registration app.post("/register", async (req, res) => { const { username, password } = req.body; if (users[username]) { return res.render("register", { error: "Username already exists!", successMessage: null, }); } const hashedPassword = await bcrypt.hash(password, 10); users[username] = { password: hashedPassword }; messages[username] = []; res.render("register", { error: null, successMessage: `Registration successful! Share your link: https://say-ya-mind.onrender.com/send/${username}`, }); }); // Login Route app.get("/login", (req, res) => { res.render("login", { error: null }); }); // Handle Login app.post("/login", async (req, res) => { const { username, password } = req.body; if (!users[username]) { return res.render("login", { error: "User not found!" }); } const user = users[username]; const validPassword = await bcrypt.compare(password, user.password); if (!validPassword) { return res.render("login", { error: "Invalid password!" }); } res.redirect(`/dashboard/${username}`); }); // Dashboard Route app.get("/dashboard/:username", (req, res) => { const { username } = req.params; const userMessages = messages[username]; res.render("dashboard", { username, messages: userMessages || [], }); }); // Send Anonymous Message Route app.get("/send/:username", (req, res) => { const { username } = req.params; if (!users[username]) { return res.status(404).send("User not found"); } res.render("send", { username }); }); // Handle Sending Anonymous Messages app.post("/send/:username", (req, res) => { const { username } = req.params; if (!users[username]) { return res.status(404).send("User not found"); } const { message } = req.body; const timeSent = new Date().toLocaleString(); // Get the current time // Store message with timestamp messages[username].push({ message, timeSent }); res.send("Thank you! Your message has been sent."); }); // Logout Route app.get("/logout", (req, res) => { res.redirect("/"); }); // Start Server app.listen(3000, () => { console.log("Server started on http://localhost:3000"); });
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const app = express();
+
+// Store messages in-memory for simplicity
+let messages = [];
+
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Home route
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+// Registration route
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  // Store the user info in memory or a database in production
+  req.session.user = { username, password };
+  res.redirect(`/dashboard/${username}`);
+});
+
+// Login route
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  // For simplicity, checking from session storage (You'd check a database here)
+  if (req.session.user && req.session.user.username === username && req.session.user.password === password) {
+    return res.redirect(`/dashboard/${username}`);
+  }
+  res.render('login', { error: 'Invalid credentials' });
+});
+
+// Dashboard route
+app.get('/dashboard/:username', (req, res) => {
+  const { username } = req.params;
+  res.render('dashboard', { username });
+});
+
+// Send message route
+app.get('/send', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login'); // Ensure the user is logged in
+  }
+
+  const username = req.session.user.username;
+  res.render('send', { username, messages });
+});
+
+app.post('/send-message', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login'); // Ensure the user is logged in
+  }
+
+  const { username } = req.session.user;
+  const { message } = req.body;
+
+  const messageObj = {
+    username: username,
+    text: message,
+    time: new Date().toLocaleString() // Add timestamp for when the message was sent
+  };
+
+  messages.push(messageObj);
+  res.redirect('/send');
+});
+
+// Static files (e.g. styles)
+app.use(express.static('public'));
+
+// Start server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
