@@ -9,39 +9,35 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="/logo.png" alt="Logo" class="logo">  <!-- Consistent logo -->
+            <img src="/logo.png" alt="Logo" class="logo">
             <h1>Welcome, <%= username %></h1>
         </div>
-
         <div class="messages">
             <h2>Your Messages</h2>
             <div class="message-list">
                 <% messages.forEach(message => { %>
-                    <div class="message">
-                        <p><%= message.message %></p>
-                        <small><%= message.timeSent %></small>
-
-                        <!-- Social Media Share Icons -->
-                        <div class="social-share">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/facebook-icon.png" alt="Share on Facebook" class="social-icon">
-                            </a>
-                            <a href="https://wa.me/?text=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon">
-                            </a>
-                            <a href="https://twitter.com/share?url=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/twitter-icon.png" alt="Share on Twitter" class="social-icon">
-                            </a>
-                            <a href="https://www.instagram.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/instagram-icon.png" alt="Share on Instagram" class="social-icon">
-                            </a>
-                        </div>
+                <div class="message">
+                    <p><%= message.message %></p>
+                    <small><%= message.timeSent %></small>
+                    <div class="social-share">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                            <img src="/facebook-icon.png" alt="Share on Facebook" class="social-icon">
+                        </a>
+                        <a href="https://wa.me/?text=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                            <img src="/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon">
+                        </a>
+                        <a href="https://twitter.com/share?url=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                            <img src="/twitter-icon.png" alt="Share on Twitter" class="social-icon">
+                        </a>
+                        <a href="https://www.instagram.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                            <img src="/instagram-icon.png" alt="Share on Instagram" class="social-icon">
+                        </a>
                     </div>
+                </div>
                 <% }); %>
             </div>
         </div>
     </div>
-
     <footer>
         <p>&copy; 2024 Say Ya Mind. All rights reserved.</p>
     </footer>
