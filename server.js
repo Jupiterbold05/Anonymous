@@ -1,56 +1,137 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
+const session = require('express-session');
+const bcrypt = require('bcrypt');
 const app = express();
 
-// Set up body-parser and view engine
-app.use(bodyParser.urlencoded({ extended: false }));
+const users = {}; // Store users in-memory (consider using a database)
+const messages = {}; // Store messages for each user
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
-// Home route
-app.get('/', (req, res) => {
-  res.render('index');
-});
+// Configure session middleware
+app.use(session({
+  secret: 'your_secret_key', // Replace with a secure secret key
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
 
-// Register route
-app.get('/register', (req, res) => {
-  res.render('register');
-});
-
-// Register POST route
-app.post('/register', (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    // Pass error message to the view
-    return res.render('register', { error: 'Please fill out both fields' });
+// Middleware to check if user is logged in
+const checkAuth = (req, res, next) => {
+  if (req.session.username) {
+    next();
+  } else {
+    res.redirect('/login');
   }
-  // Registration logic here (e.g., save user to DB)
-  res.redirect('/login');
+};
+
+// Home Route
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
-// Login route
-app.get('/login', (req, res) => {
-  res.render('login');
+// Register Route
+app.get("/register", (req, res) => {
+  res.render("register", {
+    error: null,
+    successMessage: null,
+  });
 });
 
-// Login POST route
-app.post('/login', (req, res) => {
+// Handle Registration
+app.post("/register", async (req, res) => {
   const { username, password } = req.body;
-  if (username !== 'user' || password !== 'password') {
-    return res.render('login', { error: 'Invalid username or password' });
+
+  if (users[username]) {
+    return res.render("register", {
+      error: "Username already exists!",
+      successMessage: null,
+    });
   }
-  // Successful login
-  res.redirect('/dashboard');
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  users[username] = { password: hashedPassword };
+  messages[username] = [];
+
+  res.render("register", {
+    error: null,
+    successMessage: `Registration successful! Share your link: https://say-ya-mind.onrender.com/send/${username}`,
+  });
 });
 
-// Dashboard route
-app.get('/dashboard', (req, res) => {
-  res.render('dashboard');
+// Login Route
+app.get("/login", (req, res) => {
+  res.render("login", { error: null });
 });
 
-// Listen on port 3000
+// Handle Login
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!users[username]) {
+    return res.render("login", { error: "User not found!" });
+  }
+
+  const user = users[username];
+  const validPassword = await bcrypt.compare(password, user.password);
+
+  if (!validPassword) {
+    return res.render("login", { error: "Invalid password!" });
+  }
+
+  req.session.username = username; // Set session
+  res.redirect(`/dashboard/${username}`);
+});
+
+// Dashboard Route
+app.get("/dashboard/:username", checkAuth, (req, res) => {
+  const { username } = req.params;
+  const userMessages = messages[username];
+  res.render("dashboard", {
+    username,
+    messages: userMessages || [],
+  });
+});
+
+// Send Anonymous Message Route
+app.get("/send/:username", (req, res) => {
+  const { username } = req.params;
+
+  if (!users[username]) {
+    return res.status(404).send("User not found");
+  }
+
+  res.render("send", { username });
+});
+
+// Handle Sending Anonymous Messages
+app.post("/send/:username", (req, res) => {
+  const { username } = req.params;
+
+  if (!users[username]) {
+    return res.status(404).send("User not found");
+  }
+
+  const { message } = req.body;
+  const timeSent = new Date().toLocaleString(); // Get the current time
+
+  // Store message with timestamp
+  messages[username].push({ message, timeSent });
+
+  res.send("Thank you! Your message has been sent.");
+});
+
+// Logout Route
+app.get("/logout", (req, res) => {
+  req.session.destroy(); // Destroy session
+  res.redirect("/");
+});
+
+// Start Server
 app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
+  console.log("Server started on http://localhost:3000");
 });
+    
