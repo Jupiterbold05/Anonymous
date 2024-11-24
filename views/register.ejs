@@ -3,27 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
+  <title>Register - Say Ya Mind</title>
   <style>
-    /* Your existing styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('https://i.imgur.com/r7I7MUC.jpeg');
+      background-size: cover;
+      background-position: center;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      color: #FFD700;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+    }
+
+    .error {
+      color: red;
+      font-size: 1.1em;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    footer a {
+      color: #FFD700;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>Register</h1>
-  <form action="/register" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <button type="submit">Register</button>
-  </form>
+  <div class="form-container">
+    <h1>Register</h1>
+    <form action="/register" method="POST">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
 
-  <% if (error) { %>
-    <p class="error"><%= error %></p>
-  <% } %>
+    <% if (error) { %>
+      <p class="error"><%= error %></p> <!-- Display error message in red -->
+    <% } %>
 
-  <% if (successMessage) { %>
-    <p class="success"><%= successMessage %></p>
-  <% } %>
+    <footer>
+      <p><a href="/login">Already have an account? Login here</a></p>
+    </footer>
+  </div>
 </body>
 </html>
