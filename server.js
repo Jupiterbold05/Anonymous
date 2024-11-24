@@ -12,12 +12,14 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Configure session middleware
-app.use(session({
-  secret: 'your_secret_key', // Replace with a secure secret key
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
-}));
+app.use(
+  session({
+    secret: 'your_secret_key', // Replace with a secure secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Set to true if using HTTPS
+  })
+);
 
 // Middleware to check if user is logged in
 const checkAuth = (req, res, next) => {
@@ -29,25 +31,25 @@ const checkAuth = (req, res, next) => {
 };
 
 // Home Route
-app.get("/", (req, res) => {
-  res.render("index");
+app.get('/', (req, res) => {
+  res.render('index');
 });
 
 // Register Route
-app.get("/register", (req, res) => {
-  res.render("register", {
+app.get('/register', (req, res) => {
+  res.render('register', {
     error: null,
     successMessage: null,
   });
 });
 
 // Handle Registration
-app.post("/register", async (req, res) => {
+app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
   if (users[username]) {
-    return res.render("register", {
-      error: "Username already exists!",
+    return res.render('register', {
+      error: 'Username already exists!',
       successMessage: null,
     });
   }
@@ -56,30 +58,30 @@ app.post("/register", async (req, res) => {
   users[username] = { password: hashedPassword };
   messages[username] = [];
 
-  res.render("register", {
+  res.render('register', {
     error: null,
     successMessage: `Registration successful! Share your link: https://say-ya-mind.onrender.com/send/${username}`,
   });
 });
 
 // Login Route
-app.get("/login", (req, res) => {
-  res.render("login", { error: null });
+app.get('/login', (req, res) => {
+  res.render('login', { error: null });
 });
 
 // Handle Login
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   if (!users[username]) {
-    return res.render("login", { error: "User not found!" });
+    return res.render('login', { error: 'User not found!' });
   }
 
   const user = users[username];
   const validPassword = await bcrypt.compare(password, user.password);
 
   if (!validPassword) {
-    return res.render("login", { error: "Invalid password!" });
+    return res.render('login', { error: 'Invalid password!' });
   }
 
   req.session.username = username; // Set session
@@ -87,50 +89,62 @@ app.post("/login", async (req, res) => {
 });
 
 // Dashboard Route
-app.get("/dashboard/:username", checkAuth, (req, res) => {
+app.get('/dashboard/:username', checkAuth, (req, res) => {
   const { username } = req.params;
   const userMessages = messages[username];
-  res.render("dashboard", {
+  res.render('dashboard', {
     username,
     messages: userMessages || [], // Ensure messages are passed to the view
   });
 });
 
 // Send Anonymous Message Route
-app.get("/send/:username", (req, res) => {
+app.get('/send/:username', (req, res) => {
   const { username } = req.params;
 
   if (!users[username]) {
-    return res.status(404).send("User not found");
+    return res.status(404).send('User not found');
   }
 
-  res.render("send", { username });
+  res.render('send', { username });
 });
 
 // Handle Sending Anonymous Messages
-app.post("/send/:username", (req, res) => {
+app.post('/send/:username', (req, res) => {
   const { username } = req.params;
 
   if (!users[username]) {
-    return res.status(404).send("User not found");
+    return res.status(404).send('User not found');
   }
 
   const { message } = req.body;
+
+  // Validate message
+  if (!message || message.trim() === '') {
+    return res.status(400).send('Message cannot be empty!');
+  }
+
   const timeSent = new Date().toLocaleString(); // Get the current time
 
   // Store message with timestamp
   messages[username].push({ message, timeSent });
 
-  res.send("Thank you! Your message has been sent.");
+  res.render('thankyou', { username });
+});
+
+// Thank You Page Route
+app.get('/thankyou/:username', (req, res) => {
+  const { username } = req.params;
+  res.render('thankyou', { username });
 });
 
 // Logout Route
-app.get("/logout", (req, res) => {
+app.get('/logout', (req, res) => {
   req.session.destroy(); // Destroy session
-  res.redirect("/");
+  res.redirect('/');
 });
 
 // Start Server
 app.listen(3000, () => {
-  console.log("Server started on http://localhost:3000");
+  console.log('Server started on http://localhost:3000');
 });
