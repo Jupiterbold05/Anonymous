@@ -1,87 +1,70 @@
-/* Global Styles */
-body {
-  font-family: 'Poppins', sans-serif;
-  background: url('https://i.imgur.com/r7I7MUC.jpeg') no-repeat center center fixed;
-  background-size: cover;
-  color: #fff;
+/* Basic resets and general styles */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-h1, h2 {
+body {
+  font-family: 'Arial', sans-serif;
+  background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
+  background-size: cover;
+  background-position: center;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #FFD700; /* Gold color */
   text-align: center;
-  font-family: 'Pacifico', cursive;
-  color: #ff477e; /* Fun, bright color */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add some shadow for emphasis */
+  margin-bottom: 20px;
 }
 
-/* Form Styles */
 form {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
 }
 
-textarea, button {
-  width: 100%;
+input[type="text"], input[type="password"], button {
   padding: 10px;
-  margin: 10px 0;
+  width: 250px;
+  border: none;
   border-radius: 5px;
-  border: 1px solid #fff;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  font-size: 1.2em;
+  font-size: 1.1em;
+}
+
+input[type="text"], input[type="password"] {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 button {
-  background: #ff477e; /* Bright, engaging color */
+  background-color: #FFD700; /* Gold color */
+  color: white;
   cursor: pointer;
-  border: none;
 }
 
 button:hover {
-  background: #ff1e56; /* Slightly darker shade */
+  background-color: #f0a500;
 }
 
-textarea:focus, button:focus {
-  border-color: #ff477e;
+footer {
+  margin-top: 20px;
+  text-align: center;
 }
 
-/* Placeholder text style */
-textarea::placeholder {
-  color: #fff;
-  opacity: 0.7;
-}
-
-/* Links */
-a {
-  color: #ff477e;
+footer a {
+  color: #FFD700; /* Gold color */
   text-decoration: none;
-  padding: 10px;
+  font-weight: bold;
 }
 
-a:hover {
-  color: #ff1e56;
-}
-
-/* Message Box in Dashboard */
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  background-color: rgba(255, 255, 255, 0.1);
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.time {
-  font-size: 0.8em;
-  color: #ff477e;
-  text-align: right;
+footer a:hover {
+  text-decoration: underline;
 }
