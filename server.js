@@ -78,6 +78,17 @@ app.get("/dashboard/:username", (req, res) => {
 });
 
 // Send Anonymous Message Route
+app.get("/send/:username", (req, res) => {
+  const { username } = req.params;
+
+  if (!users[username]) {
+    return res.status(404).send("User not found");
+  }
+
+  res.render("send", { username });
+});
+
+// Handle Sending Anonymous Messages
 app.post("/send/:username", (req, res) => {
   const { username } = req.params;
 
