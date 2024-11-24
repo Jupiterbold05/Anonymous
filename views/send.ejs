@@ -2,16 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send Message</title>
-  <link rel="stylesheet" href="/styles/style.css">
+  <title>Send Message - Say Ya Mind</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Send an Anonymous Message to <%= username %></h1>
-  <form action="/send/<%= username %>" method="POST">
-    <textarea name="message" placeholder="Your message..." required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-  <a href="/">Go Back</a>
+  <h1>Send Message</h1>
+  <div class="message-container">
+    <form action="/send-message" method="POST">
+      <input type="text" name="message" placeholder="Type your message here" required>
+      <button type="submit">Send Message</button>
+    </form>
+    
+    <div class="messages">
+      <% if (messages && messages.length > 0) { %>
+        <% messages.forEach(function(message) { %>
+          <div class="message">
+            <p><strong><%= message.username %>:</strong> <%= message.text %></p>
+            <p><small>Sent at: <%= message.time %></small></p>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p>No messages yet.</p>
+      <% } %>
+    </div>
+  </div>
+  
+  <footer>
+    <p><a href="/dashboard/<%= username %>">Back to Dashboard</a></p>
+  </footer>
 </body>
 </html>
