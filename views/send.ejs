@@ -1,76 +1,30 @@
+<!-- send.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Send Message</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 400px;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      text-align: center;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    textarea {
-      width: 100%;
-      height: 100px;
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #4caf50;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    .success {
-      color: #4caf50;
-      margin-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Send a message to <%= username %></h1>
-    <% if (typeof success !== 'undefined') { %>
-      <div class="success"><%= success %></div>
-    <% } %>
-    <form action="/send/<%= username %>" method="POST">
-      <textarea name="message" placeholder="Type your anonymous message here..." required></textarea>
-      <button type="submit">Send</button>
-    </form>
+  <div class="header">
+    <img src="/images/logo.png" alt="Logo" class="logo"> <!-- Display Logo -->
+    <h1>Send a Message</h1>
+  </div>
+
+  <form action="/send/<%= username %>" method="POST">
+    <label for="message">Your Message:</label>
+    <textarea name="message" id="message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+
+  <div class="account-creation">
+    <p>If you don't have an account, <a href="/register">create one now!</a></p>
+  </div>
+
+  <div class="logout">
+    <a href="/logout">Logout</a>
   </div>
 </body>
 </html>
