@@ -23,9 +23,10 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
+    // Pass error message to the view
     return res.render('register', { error: 'Please fill out both fields' });
   }
-  // Registration logic here
+  // Registration logic here (e.g., save user to DB)
   res.redirect('/login');
 });
 
