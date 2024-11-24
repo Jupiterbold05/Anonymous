@@ -109,6 +109,31 @@
             height: 24px;
         }
 
+        .shareable-link {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .shareable-link p {
+            margin: 0;
+            font-size: 1em;
+            color: #555;
+        }
+
+        .shareable-link a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .shareable-link a:hover {
+            text-decoration: underline;
+        }
+
         footer {
             margin-top: 20px;
             text-align: center;
@@ -158,12 +183,12 @@
                 <% }); %>
             </div>
         </div>
+        <div class="shareable-link">
+            <p>Shareable Link: <a href="https://say-ya-mind.onrender.com/send/<%= username %>">https://say-ya-mind.onrender.com/send/<%= username %></a></p>
+        </div>
     </div>
     <footer>
         <p>&copy; 2024 Say Ya Mind. All rights reserved.</p>
     </footer>
 </body>
 </html>
-body>
-</html>
-p
