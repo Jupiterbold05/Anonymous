@@ -7,14 +7,14 @@
 </head>
 <body>
   <h1>Login</h1>
-  <% if (error) { %>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
   <form action="/login" method="POST">
     <input type="text" name="username" placeholder="Username" required>
     <input type="password" name="password" placeholder="Password" required>
     <button type="submit">Login</button>
   </form>
-  <p>Don't have an account? <a href="/register">Register</a></p>
+  <% if (error) { %> <p><%= error %></p> <% } %>
+  <footer>
+    <p><a href="/register">Don't have an account? Register here</a></p>
+  </footer>
 </body>
 </html>
