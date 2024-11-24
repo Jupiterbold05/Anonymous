@@ -34,13 +34,26 @@
       width: 80%;
       max-width: 600px;
       border-radius: 10px;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      width: 100px; /* Adjust the width as needed */
+      height: auto; /* Maintain aspect ratio */
+      margin-bottom: 10px;
     }
 
     h1 {
       font-size: 2.5em;
       color: #FFD700; /* Gold color */
       font-family: 'Pacifico', cursive; /* Fun font */
-      margin-bottom: 20px;
     }
 
     .links {
@@ -92,7 +105,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to Say Ya Mind</h1>
+    <div class="header">
+      <img src="/images/logo.png" alt="Your Logo">
+      <h1>Welcome to Say Ya Mind</h1>
+    </div>
     <p class="links"><a href="/register">Register</a> | <a href="/login">Login</a></p>
   </div>
   <footer>
