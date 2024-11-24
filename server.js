@@ -129,13 +129,8 @@ app.post('/send/:username', (req, res) => {
   // Store message with timestamp
   messages[username].push({ message, timeSent });
 
-  res.render('thankyou', { username });
-});
-
-// Thank You Page Route
-app.get('/thankyou/:username', (req, res) => {
-  const { username } = req.params;
-  res.render('thankyou', { username });
+  // Respond dynamically
+  res.render('send', { username, success: 'Message sent successfully!' });
 });
 
 // Logout Route
