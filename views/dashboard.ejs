@@ -3,20 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="/styles/style.css">
+  <title>Say Ya Mind Chat</title>
+  <style>
+    /* Basic resets and general styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
+      background-size: cover;
+      background-position: center;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .chat-container {
+      background-color: rgba(255, 255, 255, 0.8);
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #FFD700; /* Gold color */
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .messages {
+      background-color: #f4f4f9;
+      padding: 10px;
+      border-radius: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      font-size: 1em;
+    }
+
+    .message.user {
+      background-color: #d1e7dd; /* Light green for user messages */
+    }
+
+    .message.bot {
+      background-color: #f8d7da; /* Light red for bot messages */
+    }
+
+    footer {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    footer a {
+      color: #FFD700; /* Gold color */
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome, <%= username %></h1>
-  <h2>Your Messages</h2>
-  <ul>
-    <% messages.forEach(msg => { %>
-      <li>
-        <p><%= msg.message %></p>
-        <p class="time">Sent at: <%= msg.timeSent %></p>
-      </li>
-    <% }); %>
-  </ul>
-  <a href="/logout">Logout</a>
+  <div class="chat-container">
+    <h1>Say Ya Mind Chat</h1>
+    <div class="messages">
+      <div class="message user">Hello! How are you?</div>
+      <div class="message bot">I'm great, thank you! How can I assist you today?</div>
+      <!-- More messages can go here -->
+    </div>
+  </div>
+  <footer>
+    <p><a href="/register">Register</a> | <a href="/login">Login</a></p>
+  </footer>
 </body>
 </html>
