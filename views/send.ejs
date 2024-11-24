@@ -4,15 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Message</title>
-    <link rel="stylesheet" href="/styles.css">
+    <style>
+        /* Basic resets and general styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #FFD700; /* Gold color */
+        }
+
+        .message-box {
+            width: 100%;
+        }
+
+        .message-box h2 {
+            font-size: 1.5em;
+            color: #FFD700; /* Gold color */
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            resize: none;
+            margin-bottom: 20px;
+        }
+
+        button.btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+
+        button.btn:hover {
+            background-color: #0056b3;
+        }
+
+        .options {
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .options a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .options a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: #FFD700; /* Gold color */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="/logo.png" alt="Logo" class="logo">  <!-- Logo for consistency -->
+            <img src="/logo.png" alt="Logo" class="logo">
             <h1>Send Anonymous Message</h1>
         </div>
-
         <div class="message-box">
             <h2>Send a Message to <%= username %></h2>
             <form action="/send/<%= username %>" method="POST">
@@ -20,12 +141,10 @@
                 <button type="submit" class="btn">Send Message</button>
             </form>
         </div>
-
         <div class="options">
             <p>Don't have an account? <a href="/register">Create an account</a></p>
         </div>
     </div>
-
     <footer>
         <p>&copy; 2024 Say Ya Mind. All rights reserved.</p>
     </footer>
