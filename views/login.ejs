@@ -12,7 +12,11 @@
     <input type="password" name="password" placeholder="Password" required>
     <button type="submit">Login</button>
   </form>
-  <% if (error) { %> <p><%= error %></p> <% } %>
+  
+  <% if (error) { %>
+    <p style="color: red;"><%= error %></p> <!-- Display error message in red -->
+  <% } %>
+  
   <footer>
     <p><a href="/register">Don't have an account? Register here</a></p>
   </footer>
