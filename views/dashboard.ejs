@@ -4,128 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/styles.css">
     <style>
-        /* Basic resets and general styles */
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
-            background-size: cover;
-            background-position: center;
-            color: #333;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             flex-direction: column;
+            align-items: center;
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            width: 80%;
-            max-width: 600px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
             padding: 20px;
-            overflow: hidden;
-            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            border-radius: 10px;
         }
 
         .header {
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
-        .header img.logo {
+        .logo {
             width: 50px;
             height: 50px;
-            vertical-align: middle;
-            margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         .header h1 {
-            display: inline;
-            font-size: 2em;
-            color: #FFD700; /* Gold color */
+            margin: 0;
+            font-size: 24px;
+            color: #333;
         }
 
         .messages {
-            margin-top: 20px;
+            width: 100%;
+        }
+
+        .messages h2 {
+            font-size: 20px;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
         }
 
         .message-list {
-            background-color: #f4f4f9;
-            padding: 10px;
-            border-radius: 10px;
-            max-height: 400px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            list-style: none;
+            padding: 0;
         }
 
         .message {
+            background-color: #f9f9f9;
             padding: 10px;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            font-size: 1em;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
 
         .message p {
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: 16px;
+            color: #555;
         }
 
         .message small {
             display: block;
-            text-align: right;
-            color: #666;
+            margin-top: 5px;
+            color: #999;
         }
 
         .social-share {
             margin-top: 10px;
+            display: flex;
+            gap: 10px;
         }
 
-        .social-share .social-icon {
-            width: 20px;
-            height: 20px;
-            margin: 0 5px;
-            display: inline-block;
-            vertical-align: middle;
+        .social-icon {
+            width: 24px;
+            height: 24px;
         }
 
         footer {
             margin-top: 20px;
-            color: #fff;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        footer a {
-            color: #FFD700; /* Gold color */
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="/logo.png" alt="Logo" class="logo">
+            <img src="/images/logo.png" alt="Logo" class="logo">
             <h1>Welcome, <%= username %></h1>
         </div>
-
         <div class="messages">
             <h2>Your Messages</h2>
             <div class="message-list">
@@ -135,16 +115,16 @@
                         <small><%= message.timeSent %></small>
                         <div class="social-share">
                             <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/facebook-icon.png" alt="Share on Facebook" class="social-icon">
+                                <img src="/images/facebook-icon.png" alt="Share on Facebook" class="social-icon">
                             </a>
                             <a href="https://wa.me/?text=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon">
+                                <img src="/images/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon">
                             </a>
                             <a href="https://twitter.com/share?url=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/twitter-icon.png" alt="Share on Twitter" class="social-icon">
+                                <img src="/images/twitter-icon.png" alt="Share on Twitter" class="social-icon">
                             </a>
                             <a href="https://www.instagram.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/instagram-icon.png" alt="Share on Instagram" class="social-icon">
+                                <img src="/images/instagram-icon.png" alt="Share on Instagram" class="social-icon">
                             </a>
                         </div>
                     </div>
@@ -152,9 +132,9 @@
             </div>
         </div>
     </div>
-
     <footer>
-        <p>&copy; 2024 Say Ya Mind. All rights reserved. <a href="/dashboard/<%= username %>">Back to Dashboard</a></p>
+        <p>&copy; 2024 Say Ya Mind. All rights reserved.</p>
     </footer>
 </body>
 </html>
+p
