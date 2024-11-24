@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const path = require('path');
 const app = express();
 
 const users = {}; // Store users in-memory (consider using a database)
@@ -9,6 +10,7 @@ const messages = {}; // Store messages for each user
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'));
 
 // Configure session middleware
@@ -31,6 +33,11 @@ const checkAuth = (req, res, next) => {
 };
 
 // Home Route
+app.get('/home', (req, res) => {
+  res.render('home');
+});
+
+// Index Route
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -143,3 +150,4 @@ app.get('/logout', (req, res) => {
 app.listen(3000, () => {
   console.log('Server started on http://localhost:3000');
 });
+    
