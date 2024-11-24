@@ -10,8 +10,11 @@
   <h1>Welcome, <%= username %></h1>
   <h2>Your Messages</h2>
   <ul>
-    <% messages.forEach(message => { %>
-      <li><%= message %></li>
+    <% messages.forEach(msg => { %>
+      <li>
+        <p><%= msg.message %></p>
+        <p class="time">Sent at: <%= msg.timeSent %></p>
+      </li>
     <% }); %>
   </ul>
   <a href="/logout">Logout</a>
