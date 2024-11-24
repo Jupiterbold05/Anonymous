@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Message</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <h1>Send an Anonymous Message to <%= username %></h1>
+  <form action="/send/<%= username %>" method="POST">
+    <textarea name="message" placeholder="Your message..." required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+  <a href="/">Go Back</a>
+</body>
+</html>
