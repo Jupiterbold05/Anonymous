@@ -1,114 +1,84 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f7f7f7;
-  color: #333;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-  width: 90%;
-  max-width: 800px;
-  margin: 30px auto;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
-header {
-  text-align: center;
-  margin-bottom: 20px;
+.header {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
 }
 
-header .logo {
-  max-width: 200px;
+.header .logo {
+    width: 80px;
+    border-radius: 50%;
 }
 
-h1 {
-  color: #333;
-  margin-top: 10px;
+.header h1 {
+    margin: 10px 0;
+    color: #333;
 }
 
-form {
-  margin-bottom: 20px;
+.messages {
+    padding: 20px 0;
 }
 
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  resize: none;
+.messages h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
 }
 
-button.btn {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background-color: #4CAF50;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.message-list .message {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    position: relative;
+    border: 1px solid #ddd;
 }
 
-button.btn:hover {
-  background-color: #45a049;
+.message-list .message p {
+    margin: 0;
+    color: #555;
 }
 
-.social-media {
-  margin-top: 20px;
-  text-align: center;
+.message-list .message small {
+    display: block;
+    margin-top: 10px;
+    color: #999;
 }
 
-.social-media .social-btn {
-  display: inline-block;
-  padding: 12px;
-  margin: 5px;
-  border-radius: 5px;
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
+.social-share {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
 }
 
-.social-media .fb-btn {
-  background-color: #3b5998;
-}
-
-.social-media .wa-btn {
-  background-color: #25d366;
-}
-
-.social-media .tw-btn {
-  background-color: #1da1f2;
-}
-
-.social-media .ig-btn {
-  background-color: #e1306c;
+.social-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
 }
 
 footer {
-  text-align: center;
-  margin-top: 20px;
-}
-
-footer .btn {
-  background-color: #007BFF;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-footer .btn:hover {
-  background-color: #0056b3;
+    text-align: center;
+    padding: 20px 0;
+    color: #777;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
   }
+  
