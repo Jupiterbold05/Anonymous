@@ -106,6 +106,7 @@
         .social-icon {
             width: 24px;
             height: 24px;
+            cursor: pointer;
         }
 
         footer {
@@ -139,9 +140,11 @@
             margin-top: 20px;
         }
     </style>
+    <!-- Include html2canvas Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="message-container">
         <div class="header">
             <img src="/images/logo.png" alt="Logo" class="logo">
             <h1>Welcome, <%= username %></h1>
@@ -157,18 +160,10 @@
                             <p><%= message.message %></p>
                             <small><%= message.timeSent %></small>
                             <div class="social-share">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                    <img src="/images/facebook-icon.png" alt="Share on Facebook" class="social-icon">
-                                </a>
-                                <a href="https://wa.me/?text=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                    <img src="/images/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon">
-                                </a>
-                                <a href="https://twitter.com/share?url=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                    <img src="/images/twitter-icon.png" alt="Share on Twitter" class="social-icon">
-                                </a>
-                                <a href="https://www.instagram.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                    <img src="/images/instagram-icon.png" alt="Share on Instagram" class="social-icon">
-                                </a>
+                                <img src="/images/facebook-icon.png" alt="Share on Facebook" class="social-icon" onclick="shareMessage('<%= username %>', 'facebook')">
+                                <img src="/images/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon" onclick="shareMessage('<%= username %>', 'whatsapp')">
+                                <img src="/images/twitter-icon.png" alt="Share on Twitter" class="social-icon" onclick="shareMessage('<%= username %>', 'twitter')">
+                                <img src="/images/instagram-icon.png" alt="Share on Instagram" class="social-icon" onclick="shareMessage('<%= username %>', 'instagram')">
                             </div>
                         </div>
                     <% }); %>
@@ -183,5 +178,37 @@
     <footer>
         <p>&copy; 2024 Say Ya Mind. All rights reserved.</p>
     </footer>
+    <script>
+        function shareMessage(username, platform) {
+            const container = document.getElementById('message-container');
+            html2canvas(container).then(canvas => {
+                const dataUrl = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = dataUrl;
+                link.download = `${username}-messages.png`;
+
+                // Simulate a click to download the image
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Use the dataUrl as the image for sharing
+                switch (platform) {
+                    case 'facebook':
+                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${dataUrl}`, '_blank');
+                        break;
+                    case 'whatsapp':
+                        window.open(`https://wa.me/?text=${dataUrl}`, '_blank');
+                        break;
+                    case 'twitter':
+                        window.open(`https://twitter.com/share?url=${dataUrl}`, '_blank');
+                        break;
+                    case 'instagram':
+                        window.open(`https://www.instagram.com/?url=${dataUrl}`, '_blank');
+                        break;
+                }
+            });
+        }
+    </script>
 </body>
 </html>
