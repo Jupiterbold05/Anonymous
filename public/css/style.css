@@ -1,82 +1,86 @@
-/* Basic resets and general styles */
-* {
+/* Global Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: url('https://i.imgur.com/r7I7MUC.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
-  background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Added your background image URL */
-  background-size: cover;
-  background-position: center;
-  color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
 }
 
 h1, h2 {
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  color: #feb47b;
 }
 
-h2 {
-  margin-top: 20px;
-}
-
-/* Form styling */
+/* Form Styles */
 form {
-  background-color: rgba(255, 255, 255, 0.8);
+  max-width: 400px;
+  margin: 50px auto;
   padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  width: 300px;
-  margin-top: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-input, textarea, button {
+input, button {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-
-input:focus, textarea:focus {
-  border-color: #007BFF;
-  outline: none;
-}
-
-textarea {
-  height: 100px;
-  resize: none;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1em;
 }
 
 button {
-  background-color: #007BFF;
-  color: white;
-  border: none;
+  background: #feb47b;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border: none;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #ff7e5f;
 }
 
-/* Links styling */
+input:focus, button:focus {
+  border-color: #feb47b;
+}
+
+/* Placeholder text style */
+input::placeholder {
+  color: #fff;
+  opacity: 0.7;
+}
+
+/* Links */
 a {
-  color: #007BFF;
+  color: #feb47b;
   text-decoration: none;
-  margin-top: 10px;
+  padding: 10px;
 }
 
 a:hover {
-  text-decoration: underline;
-  }
-  
+  color: #ff7e5f;
+}
+
+/* Message Box in Dashboard */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.time {
+  font-size: 0.8em;
+  color: #feb47b;
+  text-align: right;
+                         }
