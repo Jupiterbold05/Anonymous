@@ -1,37 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send Message</title>
-  <link rel="stylesheet" href="/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Message</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="/path/to/logo.png" alt="Logo" class="logo">
-      <h1>Send Your Message</h1>
-    </header>
+    <div class="container">
+        <div class="header">
+            <img src="/logo.png" alt="Logo" class="logo">  <!-- Logo for consistency -->
+            <h1>Send Anonymous Message</h1>
+        </div>
 
-    <form action="/send/<%= username %>" method="POST">
-      <label for="message">Your Message:</label>
-      <textarea name="message" id="message" rows="4" placeholder="Write your anonymous message here..." required></textarea>
+        <div class="message-box">
+            <h2>Send a Message to <%= username %></h2>
+            <form action="/send/<%= username %>" method="POST">
+                <textarea name="message" rows="4" placeholder="Write your message..." required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
 
-      <button type="submit" class="btn">Send Message</button>
-    </form>
-
-    <div class="social-media">
-      <p>Share your message:</p>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn fb-btn">Facebook</a>
-      <a href="https://api.whatsapp.com/send?text=Check%20this%20out:%20https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn wa-btn">WhatsApp</a>
-      <a href="https://twitter.com/intent/tweet?url=https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn tw-btn">Twitter</a>
-      <a href="https://www.instagram.com/share?url=https://say-ya-mind.onrender.com/send/<%= username %>" target="_blank" class="social-btn ig-btn">Instagram</a>
+        <div class="options">
+            <p>Don't have an account? <a href="/register">Create an account</a></p>
+        </div>
     </div>
 
     <footer>
-      <p>Don't have an account? <a href="/register" class="btn">Create an Account</a></p>
+        <p>&copy; 2024 Say Ya Mind. All rights reserved.</p>
     </footer>
-  </div>
 </body>
 </html>
