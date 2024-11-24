@@ -92,7 +92,7 @@ app.get("/dashboard/:username", checkAuth, (req, res) => {
   const userMessages = messages[username];
   res.render("dashboard", {
     username,
-    messages: userMessages || [],
+    messages: userMessages || [], // Ensure messages are passed to the view
   });
 });
 
@@ -134,4 +134,3 @@ app.get("/logout", (req, res) => {
 app.listen(3000, () => {
   console.log("Server started on http://localhost:3000");
 });
-    
