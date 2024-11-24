@@ -92,7 +92,7 @@ app.post('/login', async (req, res) => {
   }
 
   req.session.username = username; // Set session
-  res.redirect(`/dashboard/${username}`);
+  res.redirect('/home'); // Redirect to the home page after successful login
 });
 
 // Dashboard Route
@@ -150,4 +150,4 @@ app.get('/logout', (req, res) => {
 app.listen(3000, () => {
   console.log('Server started on http://localhost:3000');
 });
-    
+  
