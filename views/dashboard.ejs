@@ -2,16 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
   <h1>Welcome, <%= username %></h1>
   <h2>Your Messages</h2>
   <ul>
     <% messages.forEach(message => { %>
-      <li><strong><%= message.from %>:</strong> <%= message.text %></li>
-    <% }) %>
+      <li><%= message %></li>
+    <% }); %>
   </ul>
-  <p><a href="/logout">Logout</a></p>
+  <a href="/logout">Logout</a>
 </body>
 </html>
