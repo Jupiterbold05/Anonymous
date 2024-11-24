@@ -1,65 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Say Ya Mind</title>
-  <style>
-    /* Basic resets and general styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Arial', sans-serif;
-      background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
-      background-size: cover;
-      background-position: center;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-
-    h1 {
-      font-size: 3em;
-      color: #FFD700; /* Gold color */
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 20px; /* Space between the buttons */
-      margin-top: 20px;
-    }
-
-    .btn {
-      padding: 10px 20px;
-      background-color: #FFD700; /* Gold color */
-      color: white;
-      font-size: 1.2em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none; /* Remove underline from links */
-    }
-
-    .btn:hover {
-      background-color: #FFA500; /* Hover effect */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Say Ya Mind</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://i.imgur.com/r7I7MUC.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+        h1 {
+            font-size: 3em;
+            color: #FFD700;
+        }
+        a {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #FFD700;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+        a:hover {
+            background-color: #ffcc00;
+        }
+    </style>
 </head>
 <body>
-  <h1>Welcome to Say Ya Mind</h1>
-  <div class="buttons">
-    <a href="/register" class="btn">Register</a>
-    <a href="/login" class="btn">Login</a>
-  </div>
+    <h1>Welcome to Say Ya Mind</h1>
+    <p>
+        <a href="/register">Register</a>
+        <a href="/login">Login</a>
+    </p>
 </body>
 </html>
