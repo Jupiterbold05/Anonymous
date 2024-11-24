@@ -141,6 +141,31 @@ app.post('/send/:username', (req, res) => {
   res.render('send', { username, success: 'Message sent successfully!' });
 });
 
+// Share Route
+app.get('/share', (req, res) => {
+  const { dataUrl, platform } = req.query;
+  let shareUrl = '';
+
+  switch (platform) {
+    case 'facebook':
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${dataUrl}`;
+      break;
+    case 'whatsapp':
+      shareUrl = `https://wa.me/?text=${dataUrl}`;
+      break;
+    case 'twitter':
+      shareUrl = `https://twitter.com/share?url=${dataUrl}`;
+      break;
+    case 'instagram':
+      shareUrl = `https://www.instagram.com/?url=${dataUrl}`;
+      break;
+    default:
+      shareUrl = '';
+  }
+
+  res.render('share', { dataUrl, shareUrl, platform });
+});
+
 // Logout Route
 app.get('/logout', (req, res) => {
   req.session.destroy(); // Destroy session
