@@ -1,37 +1,26 @@
-const express = require("express");
-const session = require("express-session");
-const bcrypt = require("bcrypt");
-const path = require("path");
-
+const express = require('express');
+const bcrypt = require('bcrypt');
 const app = express();
 
-// Simulated database
-const users = {};
-const messages = {};
+const users = {}; // Store users in-memory (consider using a database)
+const messages = {}; // Store messages for each user
 
-// Middleware
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    secret: "secret-key",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(express.json());
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
-// Routes
-
-// Home Page
+// Home Route
 app.get("/", (req, res) => {
   res.render("index");
 });
 
-// Register Page
+// Register Route
 app.get("/register", (req, res) => {
-  res.render("register", { error: null, successMessage: null });
+  res.render("register", {
+    error: null,
+    successMessage: null,
+  });
 });
 
 // Handle Registration
@@ -51,11 +40,11 @@ app.post("/register", async (req, res) => {
 
   res.render("register", {
     error: null,
-    successMessage: `Registration successful! Share your link: https://your-app-domain.com/send/${username}`,
+    successMessage: `Registration successful! Share your link: https://say-ya-mind.onrender.com/send/${username}`,
   });
 });
 
-// Login Page
+// Login Route
 app.get("/login", (req, res) => {
   res.render("login", { error: null });
 });
@@ -63,39 +52,32 @@ app.get("/login", (req, res) => {
 // Handle Login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const user = users[username];
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.render("login", { error: "Invalid username or password!" });
+  if (!users[username]) {
+    return res.render("login", { error: "User not found!" });
   }
 
-  req.session.user = username;
+  const user = users[username];
+  const validPassword = await bcrypt.compare(password, user.password);
+
+  if (!validPassword) {
+    return res.render("login", { error: "Invalid password!" });
+  }
+
   res.redirect(`/dashboard/${username}`);
 });
 
-// Dashboard Page
+// Dashboard Route
 app.get("/dashboard/:username", (req, res) => {
   const { username } = req.params;
-
-  if (req.session.user !== username) {
-    return res.redirect("/login");
-  }
-
-  res.render("dashboard", { username, messages: messages[username] });
+  const userMessages = messages[username];
+  res.render("dashboard", {
+    username,
+    messages: userMessages || [],
+  });
 });
 
-// Anonymous Message Page
-app.get("/send/:username", (req, res) => {
-  const { username } = req.params;
-
-  if (!users[username]) {
-    return res.status(404).send("User not found");
-  }
-
-  res.render("sendMessage", { username });
-});
-
-// Handle Anonymous Message
+// Send Anonymous Message Route
 app.post("/send/:username", (req, res) => {
   const { username } = req.params;
 
@@ -104,18 +86,20 @@ app.post("/send/:username", (req, res) => {
   }
 
   const { message } = req.body;
-  messages[username].push(message);
+  const timeSent = new Date().toLocaleString(); // Get the current time
+
+  // Store message with timestamp
+  messages[username].push({ message, timeSent });
 
   res.send("Thank you! Your message has been sent.");
 });
 
-// Logout
+// Logout Route
 app.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/");
-  });
+  res.redirect("/");
 });
 
 // Start Server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(3000, () => {
+  console.log("Server started on http://localhost:3000");
+});
