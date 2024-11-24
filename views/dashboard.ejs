@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Basic resets and general styles */
         * {
@@ -13,7 +14,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
             background-size: cover;
             background-position: center;
@@ -23,22 +24,21 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
+            margin: 0;
         }
 
         .container {
             background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
+            width: 90%;
             max-width: 600px;
             margin-top: 20px;
             border-radius: 10px;
+            overflow: hidden; /* Ensures content fits within the container */
         }
 
         .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -73,14 +73,13 @@
             max-height: 400px;
             overflow-y: auto;
             display: flex;
-            flex-direction: column;
+            flex-direction: column-reverse; /* Ensure new messages are at the top */
             gap: 10px;
         }
 
         .message {
             background-color: #fff;
             padding: 10px;
-            margin-bottom: 10px;
             border-radius: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
@@ -132,6 +131,13 @@
             color: #555;
             word-wrap: break-word;
         }
+
+        .no-messages {
+            text-align: center;
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -143,28 +149,31 @@
         <div class="messages">
             <h2>Your Messages</h2>
             <div class="message-list">
-                <% messages.forEach(message => { %>
-                    <div class="message">
-                        <p><%= message.message %></p>
-                        <small><%= message.timeSent %></small>
-                        <div class="social-share">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/images/facebook-icon.png" alt="Share on Facebook" class="social-icon">
-                            </a>
-                            <a href="https://wa.me/?text=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/images/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon">
-                            </a>
-                            <a href="https://twitter.com/share?url=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/images/twitter-icon.png" alt="Share on Twitter" class="social-icon">
-                            </a>
-                            <a href="https://www.instagram.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
-                                <img src="/images/instagram-icon.png" alt="Share on Instagram" class="social-icon">
-                            </a>
+                <% if (messages.length === 0) { %>
+                    <div class="no-messages">No messages available</div>
+                <% } else { %>
+                    <% messages.forEach(message => { %>
+                        <div class="message">
+                            <p><%= message.message %></p>
+                            <small><%= message.timeSent %></small>
+                            <div class="social-share">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                                    <img src="/images/facebook-icon.png" alt="Share on Facebook" class="social-icon">
+                                </a>
+                                <a href="https://wa.me/?text=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                                    <img src="/images/whatsapp-icon.png" alt="Share on WhatsApp" class="social-icon">
+                                </a>
+                                <a href="https://twitter.com/share?url=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                                    <img src="/images/twitter-icon.png" alt="Share on Twitter" class="social-icon">
+                                </a>
+                                <a href="https://www.instagram.com/sharer/sharer.php?u=https://say-ya-mind.onrender.com/dashboard/<%= username %>" target="_blank">
+                                    <img src="/images/instagram-icon.png" alt="Share on Instagram" class="social-icon">
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                <% }); %>
+                    <% }); %>
+                <% } %>
             </div>
-
             <!-- Shareable link section -->
             <div class="share-link">
                 <p>Share your page: <strong>https://say-ya-mind.onrender.com/send/<%= username %></strong></p>
