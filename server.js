@@ -142,8 +142,8 @@ app.post('/send/:username', (req, res) => {
 });
 
 // Share Route
-app.get('/share', (req, res) => {
-  const { dataUrl, platform } = req.query;
+app.post('/share', (req, res) => {
+  const { dataUrl, platform } = req.body;
   let shareUrl = '';
 
   switch (platform) {
