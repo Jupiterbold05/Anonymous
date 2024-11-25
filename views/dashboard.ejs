@@ -160,7 +160,7 @@
                             <p><%= message.message %></p>
                             <small><%= message.timeSent %></small>
                             <div class="social-share">
-                                <form method="POST" action="/share" target="_blank">
+                                <form method="POST" action="/share" enctype="multipart/form-data">
                                     <input type="hidden" name="platform" id="platform-<%= index %>">
                                     <input type="hidden" name="dataUrl" id="dataUrl-<%= index %>">
                                     <img src="/images/facebook-icon.png" alt="Share on Facebook" class="social-icon" onclick="captureMessage('<%= index %>', 'facebook')">
@@ -186,10 +186,19 @@
         function captureMessage(index, platform) {
             const messageElement = document.getElementById(`message-${index}`);
             html2canvas(messageElement).then(canvas => {
-                const dataUrl = canvas.toDataURL('image/png');
-                document.getElementById(`dataUrl-${index}`).value = dataUrl;
-                document.getElementById(`platform-${index}`).value = platform;
-                messageElement.querySelector('form').submit();
+                canvas.toBlob(blob => {
+                    const formData = new FormData();
+                    formData.append('image', blob, 'message.png');
+                    formData.append('platform', platform);
+
+                    fetch('/share', {
+                        method: 'POST',
+                        body: formData
+                    }).then(response => response.json())
+                      .then(data => {
+                          window.open(data.shareUrl, '_blank');
+                      });
+                });
             });
         }
     </script>
