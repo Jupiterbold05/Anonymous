@@ -2,16 +2,35 @@ const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const multer = require('multer');
+const fs = require('fs');
 const app = express();
 
 const users = {}; // Store users in-memory (consider using a database)
 const messages = {}; // Store messages for each user
+
+// Set up multer for image uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const upload = multer({ storage });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'));
+
+// Ensure the uploads directory exists
+if (!fs.existsSync('uploads')) {
+    fs.mkdirSync('uploads');
+}
 
 // Configure session middleware
 app.use(
@@ -142,28 +161,29 @@ app.post('/send/:username', (req, res) => {
 });
 
 // Share Route
-app.post('/share', (req, res) => {
-  const { dataUrl, platform } = req.body;
+app.post('/share', upload.single('image'), (req, res) => {
+  const { platform } = req.body;
+  const imageUrl = `/uploads/${req.file.filename}`;
   let shareUrl = '';
 
   switch (platform) {
     case 'facebook':
-      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${dataUrl}`;
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${imageUrl}`;
       break;
     case 'whatsapp':
-      shareUrl = `https://wa.me/?text=${dataUrl}`;
+      shareUrl = `https://wa.me/?text=${imageUrl}`;
       break;
     case 'twitter':
-      shareUrl = `https://twitter.com/share?url=${dataUrl}`;
+      shareUrl = `https://twitter.com/share?url=${imageUrl}`;
       break;
     case 'instagram':
-      shareUrl = `https://www.instagram.com/?url=${dataUrl}`;
+      shareUrl = `https://www.instagram.com/?url=${imageUrl}`;
       break;
     default:
       shareUrl = '';
   }
 
-  res.render('share', { dataUrl, shareUrl, platform });
+  res.render('share', { imageUrl, shareUrl, platform });
 });
 
 // Logout Route
@@ -176,4 +196,4 @@ app.get('/logout', (req, res) => {
 app.listen(3000, () => {
   console.log('Server started on http://localhost:3000');
 });
-  
+        
