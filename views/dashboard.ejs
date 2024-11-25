@@ -194,11 +194,24 @@
                     fetch('/share', {
                         method: 'POST',
                         body: formData
-                    }).then(response => response.json())
-                      .then(data => {
-                          window.open(data.shareUrl, '_blank');
-                      });
+                    }).then(response => {
+                        if (!response.ok) {
+                            console.error('Error:', response.statusText);
+                            return;
+                        }
+                        return response.json();
+                    }).then(data => {
+                        if (data.shareUrl) {
+                            window.open(data.shareUrl, '_blank');
+                        } else {
+                            console.error('Share URL not received:', data);
+                        }
+                    }).catch(error => {
+                        console.error('Error during fetch:', error);
+                    });
                 });
+            }).catch(error => {
+                console.error('Error capturing message:', error);
             });
         }
     </script>
