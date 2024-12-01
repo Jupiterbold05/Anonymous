@@ -24,7 +24,6 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
-            margin: 0;
         }
 
         .container {
@@ -35,7 +34,6 @@
             max-width: 600px;
             margin-top: 20px;
             border-radius: 10px;
-            overflow: hidden; /* Ensures content fits within the container */
         }
 
         .header {
@@ -73,7 +71,7 @@
             max-height: 400px;
             overflow-y: auto;
             display: flex;
-            flex-direction: column-reverse; /* Ensure new messages are at the top */
+            flex-direction: column; /* Order messages normally */
             gap: 10px;
         }
 
@@ -151,7 +149,7 @@
         </div>
         <div class="messages">
             <h2>Your Messages</h2>
-            <div class="message-list">
+            <div class="message-list" id="message-list">
                 <% if (messages.length === 0) { %>
                     <div class="no-messages">No messages available</div>
                 <% } else { %>
@@ -214,6 +212,14 @@
                 console.error('Error capturing message:', error);
             });
         }
+
+        // Ensure the view scrolls to the top to show the latest message completely
+        document.addEventListener("DOMContentLoaded", function() {
+            const messageList = document.getElementById("message-list");
+            if (messageList) {
+                messageList.scrollTop = 0;
+            }
+        });
     </script>
 </body>
 </html>
