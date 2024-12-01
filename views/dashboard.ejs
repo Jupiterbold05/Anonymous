@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-image: url('https://i.imgur.com/OwG1K4B.jpg'); /* Christmas themed background image */
+            background-image: url('https://i.imgur.com/p4zuF3M.jpg'); /* Christmas background */
             background-size: cover;
             background-position: center;
             color: #333;
@@ -30,12 +30,13 @@
         .container {
             background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             width: 90%;
             max-width: 600px;
             margin-top: 20px;
             border-radius: 10px;
-            overflow-y: auto; /* Allows the container to scroll if content overflows */
+            overflow: hidden; /* Ensures content fits within the container */
+            border: 5px solid #FFD700; /* Gold border */
         }
 
         .header {
@@ -52,7 +53,9 @@
         .header h1 {
             margin: 0;
             font-size: 2em;
-            color: #FFD700; /* Gold color */
+            color: #B22222; /* Dark red */
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+            text-shadow: 2px 2px #FFD700;
         }
 
         .messages {
@@ -61,7 +64,7 @@
 
         .messages h2 {
             font-size: 1.5em;
-            color: #FFD700; /* Gold color */
+            color: #B22222; /* Dark red */
             border-bottom: 2px solid #ddd;
             padding-bottom: 5px;
             margin-bottom: 10px;
@@ -73,12 +76,13 @@
             max-height: 400px;
             overflow-y: auto;
             display: flex;
-            flex-direction: column; /* Ensure new messages are at the top */
+            flex-direction: column; /* Display messages from the top */
             gap: 10px;
         }
 
         .message {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #FFD700;
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -151,7 +155,7 @@
         </div>
         <div class="messages">
             <h2>Your Messages</h2>
-            <div class="message-list" id="message-list">
+            <div class="message-list">
                 <% if (messages.length === 0) { %>
                     <div class="no-messages">No messages available</div>
                 <% } else { %>
@@ -183,10 +187,6 @@
         <p>&copy; 2024 Say Ya Mind. All rights reserved.</p>
     </footer>
     <script>
-        // Ensure new messages appear at the top
-        const messageList = document.getElementById('message-list');
-        messageList.scrollTop = 0;
-
         function captureMessage(index, platform) {
             const messageElement = document.getElementById(`message-${index}`);
             html2canvas(messageElement).then(canvas => {
@@ -212,6 +212,7 @@
                         }
                     }).catch(error => {
                         console.error('Error during fetch:', error);
+
                     });
                 });
             }).catch(error => {
