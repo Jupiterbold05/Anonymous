@@ -35,7 +35,8 @@
             max-width: 600px;
             margin-top: 20px;
             border-radius: 10px;
-            overflow-y: auto; /* Allows the container to scroll if content overflows */
+            overflow: hidden; /* Ensures content fits within the container */
+            border: 5px solid #FFD700; /* Gold border */
         }
 
         .header {
@@ -73,7 +74,7 @@
             max-height: 400px;
             overflow-y: auto;
             display: flex;
-            flex-direction: column; /* Ensure new messages are at the top */
+            flex-direction: column; /* Default direction */
             gap: 10px;
         }
 
@@ -138,6 +139,37 @@
             font-size: 1.2em;
             color: #555;
             margin-top: 20px;
+        }
+
+        /* Christmas theme styles */
+        body {
+            background-image: url('https://i.imgur.com/p4zuF3M.jpg'); /* Christmas background */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border: 5px solid #FFD700;
+        }
+
+        .header h1 {
+            color: #B22222; /* Dark red */
+        }
+
+        .messages h2 {
+            color: #B22222; /* Dark red */
+        }
+
+        .message {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #FFD700;
+        }
+
+        footer p {
+            color: #FFD700;
         }
     </style>
     <!-- Include html2canvas Library -->
@@ -208,6 +240,7 @@
                         }
                     }).catch(error => {
                         console.error('Error during fetch:', error);
+
                     });
                 });
             }).catch(error => {
