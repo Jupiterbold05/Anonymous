@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Message</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Basic resets and general styles */
         * {
@@ -13,8 +14,8 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('https://i.imgur.com/r7I7MUC.jpeg'); /* Background image */
+            font-family: 'Roboto', sans-serif;
+            background-image: url('https://i.imgur.com/sVe3swt.jpeg'); /* New background image */
             background-size: cover;
             background-position: center;
             color: #333;
@@ -23,6 +24,7 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
+            margin: 0;
         }
 
         .container {
@@ -41,6 +43,7 @@
             align-items: center;
             text-align: center;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .logo {
@@ -51,8 +54,9 @@
 
         .header h1 {
             margin: 0;
-            font-size: 2em;
+            font-size: 2em; /* Reduced font size */
             color: #FFD700; /* Gold color */
+            font-family: 'Courier New', Courier, monospace; /* Updated font */
         }
 
         .message-box {
@@ -61,8 +65,8 @@
 
         .message-box h2 {
             font-size: 1.5em;
-            color: #FFD700; /* Gold color */
-            border-bottom: 2px solid #ddd;
+            color: #B22222; /* Festive red color */
+            border-bottom: 2px solid #228B22; /* Festive green border */
             padding-bottom: 5px;
             margin-bottom: 10px;
         }
@@ -71,7 +75,7 @@
             width: 100%;
             padding: 15px;
             border-radius: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #228B22; /* Festive green border */
             font-size: 1em;
             resize: none;
             margin-bottom: 20px;
@@ -130,7 +134,7 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Send Anonymous Message to <%= username %>">
     <meta property="og:description" content="Send an anonymous message to <%= username %> on Say Ya Mind.">
-    <meta property="og:image" content="https://i.imgur.com/r7I7MUC.jpeg">
+    <meta property="og:image" content="https://i.imgur.com/sVe3swt.jpeg">
     <meta property="og:url" content="https://say-ya-mind.onrender.com/send/<%= username %>">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Say Ya Mind">
@@ -139,7 +143,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Send Anonymous Message to <%= username %>">
     <meta name="twitter:description" content="Send an anonymous message to <%= username %> on Say Ya Mind.">
-    <meta name="twitter:image" content="https://i.imgur.com/r7I7MUC.jpeg">
+    <meta name="twitter:image" content="https://i.imgur.com/sVe3swt.jpeg">
     <meta name="twitter:url" content="https://say-ya-mind.onrender.com/send/<%= username %>">
 
     <script>
